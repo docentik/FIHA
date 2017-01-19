@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-### Author: Stanislav Petrík fiha-on
+### Author: Stanislav Petrík fiha-elo
 
 import logging
 from cgi import escape
@@ -20,10 +20,9 @@ class StoredData(db.Model):
 
 Uvod = '''
 <table border=0>
- <td><button onclick= location.reload()>Refresh</button></td>
- <td><image src="/images/giv.png" width="40" hspace="10"></td>
- <td><button onClick=location.href='http://fiha-st.appspot.com'>Prehlad</button></td>
- <td><button onClick=location.href='http://fiha-elo.appspot.com'>ELO</button></td>
+ <td><button onClick=location.href='http://fiha-on.appspot.com'>Online</button></td>
+ <td><image src="/images/elo.jpg" width="40" hspace="10"></td>
+ <td><button onClick=location.href='http://fiha-st.appspot.com'>Straty a Nálezy</button></td>
 </table>'''
  
 class MainPage(webapp.RequestHandler):
@@ -138,12 +137,11 @@ def write_page_header(self):
         body {background-color:black;font-size:20px;margin-left: 5% ; margin-right: 5%; margin-top: 0.1in;
              font-family: verdana, arial,"trebuchet ms", helvetica, sans-serif;}
         button {font-size:30px; background-color:silver;}
-        h4 {color:gray;}
+        h3 {color:gray;}
         table {font-family: Arial; border: 3px solid dimgray; padding: 4px; border-spacing: 5px;}
-        th {font-size:40px; border: 3px solid darkgray; padding: 10px; cellspacing:20px;}
+        th {font-size:40px;color: white;border: 3px solid darkgray; padding: 10px; cellspacing:20px;}
         td {font-size:25px; color: silver; border: 1px solid darkgray;text-align:center; padding: 10px;}
         ul {list-style: disc;}
-        a {color:gray;}
      </style>
      <title>Tiny WebDB</title>
      </head>
@@ -152,29 +150,16 @@ def write_page_header(self):
 
 ### Ukazuje Tagy a hodnoty v tabulke
 def show_stored_data(self):
-#  self.response.out.write('''
- #        <p> <table>''')
+  self.response.out.write('''
+      <p> <table>''')
   entries = StoredData.all().order("-tag")
   for e in entries:
      entry_key_string = str(e.key())
-     if (e.tag) == 'loc':
-      tmp = e.value
-   #    tmp = '"https:\/\/www.instantstreetview.com\/Haburská 92\/49 831 04 Bratislava Slovensko"'
-   #   self.response.out.write('<p><table><td>')
-  #    self.response.out.write('<button onClick=location.href=')
-  #    self.response.out.write(tmp)
-    #  self.response.out.write('>Kde ?')
-#</button></td>')
-   #   self.response.out.write('</table>')
-      self.response.out.write('<h4>  <a href=')
-      self.response.out.write(tmp)
-      self.response.out.write('>miesto</a>')
-     if (e.tag) == 'on' :
-      self.response.out.write('<p><table>')
+     if (e.tag) == 'elo' :
       self.response.out.write(e.value)
       self.response.out.write('</table>')
       self.response.out.write('<br>')
-      self.response.out.write('<h4>')
+      self.response.out.write('<h3>')
       self.response.out.write(e.date.ctime())
 
 #### Procedúry pre Output :
